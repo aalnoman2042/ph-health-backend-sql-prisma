@@ -7,4 +7,10 @@ export default {
     node_env: process.env.NODE_ENV,
     port: process.env.PORT,
     database_url: process.env.DATABASE_URL,
+
+    cloudiniary :{
+
+        couldinary_api_secret_key: process.env.CLOUDINARY_API_SECRET 
+    },
+    jwt_secret:process.env.JWT_SECRET_KEY
 }
