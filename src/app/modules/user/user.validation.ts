@@ -25,6 +25,7 @@ const createAdminValidationSchema = z.object({
             error: "Contact Number is required!"
         })
     })
+    
 });
 
 const createDoctorValidationSchema = z.object({
