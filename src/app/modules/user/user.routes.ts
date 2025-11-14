@@ -8,7 +8,7 @@ import { UserRole } from '@prisma/client'
 
 const router = express.Router()
 
-auth
+
 
 router.get("/",
     auth(UserRole.ADMIN, UserRole.DOCTOR),
