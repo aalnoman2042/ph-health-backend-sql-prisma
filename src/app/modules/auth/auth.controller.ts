@@ -7,6 +7,8 @@ import { AuthService } from "./auth.service";
 const login = catchAsync(async (req: Request, res: Response)=>{
   
     const result = await AuthService.login(req.body)
+   
+    
 
     const {accessToken, refreshToken, needpassChange} = result
 
@@ -31,7 +33,7 @@ const login = catchAsync(async (req: Request, res: Response)=>{
     sendResponse(res, {
         statusCode: 201,
         success: true,
-        message: "user logged in successfully",
+        message: `${req?.body?.email} logged in successfully`,
         data: {
             needpassChange
         }
