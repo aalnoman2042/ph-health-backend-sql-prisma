@@ -15,10 +15,12 @@ router.get("/",
     scheduleController.scheduleForDoctor
 )
 router.post("/",
-    // auth(UserRole.ADMIN, UserRole.DOCTOR),
+    auth(UserRole.ADMIN, UserRole.DOCTOR),
     scheduleController.insertIntoDB
 )
 router.delete("/:id",
+   
+    auth(UserRole.ADMIN),
     scheduleController.deleteScheduleFromDB
 )
 

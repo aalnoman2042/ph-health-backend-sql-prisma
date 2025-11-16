@@ -11,6 +11,8 @@ model User {
     doctor             Doctor?
     patient            Patient?
 
+ 
+
     @@map("users")
 }
 
@@ -51,6 +53,8 @@ model Doctor {
 
 
     doctorSchedules DoctorSchedules[]
+      
+    doctorSpecialties DoctorSpecialties[]
     @@map("doctors")
 }
 

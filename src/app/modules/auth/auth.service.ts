@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken"
 import { email } from "zod"
 import { jwtHelper } from "../../helper/jwtHelper"
 import config from "../../../config"
+import ApiError from "../../Errors/ApiError"
+import httpStatus from "http-status"
 const login = async(payload : {email: string, password: string }) =>{
  const user = await prisma.user.findUniqueOrThrow({
     where: {
@@ -15,7 +17,7 @@ const login = async(payload : {email: string, password: string }) =>{
 
  const isCorrectPassword = await bcrypt.compare(payload.password, user.password)
  if(!isCorrectPassword){
-    throw new Error("password is incorrect")
+    throw new ApiError(httpStatus.BAD_REQUEST,"password is incorrect")
  }
  const accessToken =  jwtHelper.generateToken({email: user.email, role: user.role}, config.jwt_secret as string, "1h")
 
