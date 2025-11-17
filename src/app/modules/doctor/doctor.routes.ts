@@ -10,5 +10,7 @@ router.patch(
 doctorController.updateIntoDB
 )
 
+router.post("/suggetions", doctorController.getAISuggetions)
+
 
 export const DoctorRoutes = router 

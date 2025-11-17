@@ -4,6 +4,10 @@ import { doctorSearchableFields } from "./doctor.constant";
 import { object } from "zod";
 import { prisma } from "../../shared/prisma";
 import { IDoctorUpdateInput } from "./doctor.interface";
+import ApiError from "../../Errors/ApiError";
+import httpStatus from "http-status";
+import { openai } from "../../helper/open-router";
+import { extractJsonFromMessage } from "../../helper/extractJsonFromMessage";
 
 const getAllFromDB = async (filters: any, options: IOPtions) => {
   const { page, limit, skip, sortBy, sortOrder } =
@@ -138,7 +142,67 @@ const updateIntoDB = async (
   });
 };
 
+const getAISuggetions = async(payload: {symptom : string})=>{
+if(!(payload && payload.symptom)){
+throw new ApiError(httpStatus.BAD_REQUEST, "symptom is required")
+}
+
+const doctors = await prisma.doctor.findMany({
+  where : {isDeleted: false},
+  include:{
+    doctorSpecialties:{
+      include:{
+        specialities: true
+      }
+    }
+  }
+})
+
+    const prompt = `
+You are an AI medical assistant for an online doctor appointment platform.
+
+Your task:
+- Analyze the patient's symptoms.
+- Compare symptoms with each doctor's specialties.
+- Select ONLY the doctors whose specialties are relevant to the symptoms.
+- Rank the top 3 most suitable doctors (or fewer if less available).
+- If NO doctor's specialty matches the symptoms, return a "noDoctorFound": true response.
+
+Important Rules:
+1. Do NOT guess specialties.
+2. Do NOT include unrelated doctors.
+3. If there is only ONE doctor available, still evaluate relevance strictly.
+4. Matching should be based on SPECIALTY TITLE relevance to symptoms (e.g., chest pain → cardiology, fever → medicine, skin rash → dermatology).
+
+Here is the doctor list (in JSON):
+${JSON.stringify(doctors, null, 2)}
+
+Input:
+Symptoms: ${payload.symptom} 
+`;
+
+    console.log("analyzing......\n")
+    const completion = await openai.chat.completions.create({
+        model: 'z-ai/glm-4.5-air:free',
+        messages: [
+            {
+                role: "system",
+                content:
+                    "You are a helpful AI medical assistant that provides doctor suggestions.",
+            },
+            {
+                role: 'user',
+                content: prompt,
+            },
+        ],
+    });
+    const result = await extractJsonFromMessage(completion.choices[0].message)
+    return result;
+    
+}
+
 export const DoctorService = {
   getAllFromDB,
   updateIntoDB,
+  getAISuggetions,
 };

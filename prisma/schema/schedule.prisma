@@ -3,8 +3,9 @@ model Schedule {
     startDateTime DateTime
     endDateTime DateTime
     createdAt DateTime @default(now())
-    updatedAat DateTime @updatedAt
+    updatedAt DateTime @updatedAt
     doctorSchedules DoctorSchedules[]
+    appointments Appointment[]
 
     @@map("schedules")
     }
