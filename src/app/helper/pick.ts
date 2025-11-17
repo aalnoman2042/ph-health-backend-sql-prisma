@@ -2,7 +2,7 @@ import { keyof } from "zod";
 
 const pick = <T extends Record<string, unknown>, k extends keyof T>(obj: T, keys: k[]):Partial<T> =>{
 
-     console.log({obj, keys});
+    //  console.log({obj, keys});
      
      const finalObject: Partial<T> = {}
 

@@ -1,4 +1,4 @@
-type IOPtions = {
+export type IOPtions = {
     page?: string | number
     limit?: string | number
     sortBy?: string 
