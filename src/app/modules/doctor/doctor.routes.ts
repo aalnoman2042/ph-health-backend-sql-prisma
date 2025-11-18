@@ -9,6 +9,7 @@ router.patch(
     "/:id",
 doctorController.updateIntoDB
 )
+router.get('/:id', doctorController.getByIdFromDB);
 
 router.post("/suggetions", doctorController.getAISuggetions)
 

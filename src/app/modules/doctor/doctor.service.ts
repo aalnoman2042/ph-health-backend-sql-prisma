@@ -91,7 +91,7 @@ const updateIntoDB = async (
 ) => {
   const doctorInfo = await prisma.doctor.findUniqueOrThrow({
     where: {
-      id,
+      id: id,
     },
   });
 
@@ -201,8 +201,31 @@ Symptoms: ${payload.symptom}
     
 }
 
+const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
+    const result = await prisma.doctor.findUnique({
+        where: {
+            id,
+            isDeleted: false,
+        },
+        include: {
+            doctorSpecialties: {
+                include: {
+                    specialities: true,
+                },
+            },
+            doctorSchedules: {
+                include: {
+                    schedule: true
+                }
+            }
+        },
+    });
+    return result;
+};
+
 export const DoctorService = {
   getAllFromDB,
   updateIntoDB,
   getAISuggetions,
+  getByIdFromDB,
 };
