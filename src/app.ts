@@ -4,10 +4,18 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
 import cookieParser from 'cookie-parser';
+import { PaymentController } from './app/modules/Payment/payment.controller';
 
 const app: Application = express();
+
+app.post(
+  "/payment/webhook",
+  express.raw({ type: "application/json" }), // important for signature verification
+  PaymentController.handleStripeWebhookEvent
+);
+
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3001',
     credentials: true
 }));
 

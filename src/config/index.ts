@@ -13,5 +13,6 @@ export default {
         couldinary_api_secret_key: process.env.CLOUDINARY_API_SECRET 
     },
     jwt_secret:process.env.JWT_SECRET_KEY,
-    openRouterApiKey: process.env.OPENROUTER_API_KEY
+    openRouterApiKey: process.env.OPENROUTER_API_KEY,
+    StripeSecretKey: process.env.STRIPE_SECRET_KEY,
 }
