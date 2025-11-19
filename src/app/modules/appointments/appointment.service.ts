@@ -157,7 +157,7 @@ const getMyAppointment = async (user: IjwtPayload, filters: any, options: any) =
 
 }
 
-// task get all data from db (appointment data) - admin
+// get all data from db (appointment data) - admin
 
 
 const updateAppointmentStatus = async (appointmentId: string, status: AppointmentStatus, user: IjwtPayload) => {
