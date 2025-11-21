@@ -78,7 +78,7 @@ model Patient {
 
     prescription Prescription[]
     medicalReports MedicalReport[]
-    healthData     PatientHealthData?
+    patientHealthData     PatientHealthData?
     review         Review[]
 
     @@map("patients")

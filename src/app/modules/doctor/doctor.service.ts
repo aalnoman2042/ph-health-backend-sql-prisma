@@ -67,6 +67,12 @@ console.log(specialties);
             include:{
                 specialities: true
             }
+        },
+        review: {
+          select: {
+            rating: true, 
+            comment: true,
+          }
         }
     }
   });
@@ -217,7 +223,13 @@ const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
                 include: {
                     schedule: true
                 }
-            }
+            },
+            review: {
+              select: {
+                rating: true, 
+                comment: true,
+              }
+            },
         },
     });
     return result;
