@@ -41,7 +41,8 @@ model Doctor {
     registrationNumber  String
     experience          Int      @default(0)
     gender              Gender
-    appointmentFee      Int
+    appointmentFee      Int 
+    averageRating       Float    @default(0.0)
     qualification       String
     currentWorkingPlace String
     designation         String
@@ -58,6 +59,7 @@ model Doctor {
     appointments    Appointment[]
 
     prescription Prescription[]
+    review         Review[]
     @@map("doctors")
 }
 
@@ -75,6 +77,9 @@ model Patient {
     appointments    Appointment[]
 
     prescription Prescription[]
+    medicalReports MedicalReport[]
+    healthData     PatientHealthData?
+    review         Review[]
 
     @@map("patients")
 } 
