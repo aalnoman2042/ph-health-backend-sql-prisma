@@ -5,6 +5,9 @@ import notFound from './app/middlewares/notFound';
 import router from './app/routes';
 import cookieParser from 'cookie-parser';
 import { PaymentController } from './app/modules/Payment/payment.controller';
+import cron from 'node-cron';
+import { AppointmentService } from './app/modules/appointments/appointment.service';
+import { AppointmentController } from './app/modules/appointments/appointments.controller';
 
 const app: Application = express();
 
@@ -30,6 +33,16 @@ app.get('/', (req: Request, res: Response) => {
     res.send({
         Message: "Ph health care server.."
     })
+});
+
+cron.schedule('* * * * *',  () => {
+    try {
+        AppointmentController.cancelUnpaidAppointments();
+    } catch (error) {
+        console.log(error);
+        
+    }
+  
 });
 
 
